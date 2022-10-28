@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nginx-blue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      color: blue
+  template:
+    metadata:
+      name: my-nginx-pod-blue
+      labels:
+        color: blue
+    spec:
+      containers:
+      - name: nginx-blue
+        image: testweb:blue
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx-lb-blue
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80 # 로드밸런서의 포트
+      targetPort: 80 # 포드의 포트
+      protocol: TCP
+  selector:
+    color: blue

@@ -11,18 +11,17 @@ pipeline {
     stage(' docker image build and push to private-registry') {
       steps {
         sh '''
-	docker build -t 192.168.8.100:5000/testweb:blue .
-	docker push 192.168.8.100:5000/testweb:blue
-	'''
+        docker build -t 192.168.8.100:5000/testweb:blue .
+        docker push 192.168.8.100:5000/testweb:blue
+        '''
       }
     }
 
     stage(' deployment, svc creation ' ) {
       steps {
         sh '''
-	kubectl create deploy testweb2 --image=192.168.8.100:5000/testweb:blue
-	kubectl expose deploy testweb2 --type=LoadBalancer --port=80 --target-port=80 --name=testweb2-svc
-	'''
+        kubectl apply -f blue.yaml
+        '''
       }
     }
   }

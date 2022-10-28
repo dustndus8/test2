@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nginx-green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      color: green
+  template:
+    metadata:
+      name: my-nginx-pod-green
+      labels:
+        color: green
+    spec:
+      containers:
+      - name: nginx-green
+        image: testweb:green
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx-lb-green
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80 # 로드밸런서의 포트
+      targetPort: 80 # 포드의 포트
+      protocol: TCP
+  selector:
+    color: green
