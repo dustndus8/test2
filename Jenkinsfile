@@ -20,8 +20,8 @@ pipeline {
     stage(' deployment, svc creation ' ) {
       steps {
         sh '''
-	kubectl create deploy testweb --image=192.168.8.100:5000/testweb:blue
-	kubectl expose deploy testweb --type=LoadBalancer --port=80 --target-port=80 --name=testweb-svc
+	kubectl create deploy testweb2 --image=192.168.8.100:5000/testweb:blue
+	kubectl expose deploy testweb2 --type=LoadBalancer --port=80 --target-port=80 --name=testweb2-svc
 	'''
       }
     }
